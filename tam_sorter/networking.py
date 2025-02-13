@@ -12,14 +12,17 @@ def start_server():
         print('Server listening on %s:%d...' % (HOST, PORT))
         print('Press Ctrl+C to exit')
 
-        conn, addr = s.accept()
-        with conn:
-            data = conn.recv(1024)
-            if not data.endswith('#'):
-                response = "Input does not end with #"
-            else:
-                response = SORT_TAM_SERVER(data)
-            conn.send(response.encode())
+        while True:
+            conn, addr = s.accept()
+            with conn:
+                data = conn.recv(1024).decode().strip()
+                if not data.endswith('#'):
+                    response = "Input does not end with #"
+                else:
+                    datalist = list(data.strip('#'))
+                    sorted_list = SORT_TAM_SERVER(datalist)
+                    response = ''.join(sorted_list)
+                conn.send(response.encode())
 
 
 def start_client():
