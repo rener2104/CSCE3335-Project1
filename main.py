@@ -1,4 +1,5 @@
 import sys
+import pytest
 from tam_sorter.networking import start_client, start_server
 
 if __name__ == '__main__':
@@ -10,9 +11,8 @@ if __name__ == '__main__':
     elif sys.argv[1] == 'server':
         start_server()
     elif sys.argv[1] == 'tests':
-        #TODO: Run tests
-        pass
+        sys.exit(pytest.main(["tests.py", "-v"]))
     else:
-        print("Usage: python main.py [client|server]")
+        print("Usage: python main.py [client|server|tests]")
         sys.exit(1)
 
