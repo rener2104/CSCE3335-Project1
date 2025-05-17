@@ -1,32 +1,30 @@
-#Helper function that swapes two indeces, ith and jth, based on what needs to be moved.
-def SWAP_SERVER(arr, i, j ):
+def encode_integer(N):
     """
-    Swaps two elements in the array.
+    Encodes an integer between -121 and 121 using a balanced ternary system
+    with coefficients -1, 0, or 1 for powers of 3: [81, 27, 9, 3, 1].
 
     Parameters:
-    :param arr: The array to modify.
-    :param i: Index of first element.
-    :param j: Index of second element.
+    :param N: The integer to encode.
+    :return: A list of coefficients representing the encoded form.
     """
-    arr[i], arr[j] = arr[j], arr[i]
+    if N == 0:
+        return [0, 0, 0, 0, 0]
 
+    powers = [81, 27, 9, 3, 1]
+    coefficients = [0] * 5
 
-def SORT_TAM_SERVER(arr):
-    '''
-    Sorts array using Dutch National Flag Algorithm so that all 'T' elements appear first, followed by all 'A' elements, then by  all 'M' elements.
-    :param arr: The list of character to be sorted.
-    :return: The sorted array.
-    '''
-    low, mid, high = 0, 0, len(arr) - 1
-    while mid <= high:
-        if arr[mid] == 'T':
-            SWAP_SERVER(arr, low, mid)
-            low += 1
-            mid += 1
-        elif arr[mid] == 'A':
-            mid += 1
-        elif arr[mid] == 'M':
-            SWAP_SERVER(arr, high, mid)
-            high -= 1
-    return arr
+    value = N
+    for i in range(5):
+        remainder = value % 3
+        if remainder == 0:
+            coefficients[i] = 0
+        elif remainder == 1:
+            coefficients[i] = 1
+            value -= 1
+        elif remainder == 2:  # 2 in base 3 balanced ternary becomes -1 with carry
+            coefficients[i] = -1
+            value += 1
+        value //= 3
 
+    # Convert to match order: [81, 27, 9, 3, 1] = [0] * 5
+    return coefficients[::-1]  # Reverse to match highest power first

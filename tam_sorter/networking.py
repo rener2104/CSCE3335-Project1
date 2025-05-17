@@ -1,6 +1,6 @@
 # Networking functions for client and server
 import socket
-from .algorithm import SORT_TAM_SERVER
+from .algorithm import encode_integer  # Updated import
 
 def start_server():
     HOST = '127.0.0.1'
@@ -18,9 +18,17 @@ def start_server():
                     data = conn.recv(1024).decode().strip()
                     if not data:
                         break  # Exit loop if connection is closed
-                    datalist = list(data.strip('#'))
-                    sorted_list = SORT_TAM_SERVER(datalist)
-                    response = ''.join(sorted_list)
+
+                    try:
+                        number = int(data)
+                        if number < -121 or number > 121:
+                            response = "Error: Number out of range (-121 to 121)"
+                        else:
+                            encoded = encode_integer(number)
+                            response = str(encoded)
+                    except ValueError:
+                        response = "Error: Invalid integer input"
+
                     conn.send(response.encode())
 
 def start_client():
@@ -30,18 +38,13 @@ def start_client():
         s.connect((HOST, PORT))
 
         while True:
-            print("Enter sequence of 'T', 'A', 'M' letters ending with '#':")
-            sequence = input()
+            try:
+                user_input = input("Enter an integer between -121 and 121: ").strip()
 
-            if set(sequence) - {'T', 'A', 'M', '#'}:
-                print("Invalid input! Only 'T', 'A', 'M', and '#' are allowed.")
-                continue
-            if not sequence.endswith('#'):
-                print("Input does not end with #")
-                continue
-
-            s.send(sequence.encode())
-
-            response = s.recv(1024).decode()
-            print("Response from server:")
-            print(response)
+                s.send(user_input.encode())
+                response = s.recv(1024).decode()
+                print("Encoded response from server:")
+                print(response)
+            except KeyboardInterrupt:
+                print("\nClient terminated.")
+                break

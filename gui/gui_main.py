@@ -16,16 +16,16 @@ def show_overview():
     title = tk.Label(overview, text="CSCE 3335 Project 1: Problem Analysis, Problem Solving, and Programming\n– Socket Programming Using TCP/IP", font=("Arial", 22, "bold"), wraplength=900)
     title.pack(pady=15)
 
-    description = tk.Label(overview, text="This project is a client-server program using TCP/IP sockets. The client sends a sequence of letters (‘T’, ‘A’, ‘M’) ending with ‘#’ to the server, which sorts them and returns the sorted sequence.", font=("Arial", 18), wraplength=900, justify="center")
+    description = tk.Label(overview, text="This project is a client-server program using TCP/IP sockets. The client sends an integer (between –121 and 121) to the server. The server encodes it using a special base-3 scheme and sends back the encoded result.", font=("Arial", 18), wraplength=900, justify="center")
     description.pack(padx=40, pady=20)
 
     instructions = tk.Label(overview, text=(
         "Instructions for Use:\n"
         "- Start the server with the Start Server button.\n"
         "- Start the client with the Start Client button.\n"
-        "- Enter a sequence of ‘T’, ‘A’, ‘M’ ending with ‘#’ in the input box.\n"
+        "- Enter an integer between -121 and 121 in the input box.\n"
         "- Send the input using the Send Input button.\n"
-        "- View the sorted output in the output box.\n"
+        "- View the encoded output in the output box.\n"
         "- Stop server/client with the Stop buttons.\n"
         "- Exit the app with the Exit button.\n\n"
         "*Note:* Click Run Tests to execute automated tests at any time."
@@ -75,7 +75,7 @@ class ServerClientGUI:
         #Input field
         input_frame = ttk.Frame(root, padding=10)
         input_frame.grid(row=1, column=0, columnspan=2, sticky="ew")
-        self.input_label = ttk.Label(input_frame, text="Enter Input:")
+        self.input_label = ttk.Label(input_frame, text="Enter Integer (-121 to 121):")
         self.input_label.pack(side="left", padx=5)
         self.input_field = ttk.Entry(input_frame, width=60)
         self.input_field.pack(side="left", padx=5)
