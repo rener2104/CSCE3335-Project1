@@ -1,6 +1,6 @@
 import sys
 import pytest
-from tam_sorter.networking import start_client, start_server
+from encoding_scheme.networking import start_client, start_server
 from gui import gui_main
 
 if __name__ == '__main__':
